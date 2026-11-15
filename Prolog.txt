@@ -1,0 +1,72 @@
+impl(A, B) :- (A = true, B = false) -> false ; true.
+
+equiv(A, B) :- A = B.
+
+truth_table_phi1 :-
+    write('A       B       | A -> B'), nl,
+    write('-------------------------'), nl,
+    (member(A, [true, false]), 
+     member(B, [true, false]),
+     (impl(A, B) -> Result = true ; Result = false),
+     write(A), write('    '), write(B), write('    | '), write(Result), nl,
+     fail ; true).
+
+
+
+student(ali).
+student(sara).
+student(omar).
+
+course(ai).
+course(math).
+
+teacher(dr_ahmed).
+teacher(dr_mona).
+
+takes(ali, ai).
+takes(sara, math).
+takes(omar, ai).
+
+passes(ali, ai).
+passes(sara, math).
+
+teaches(dr_ahmed, ai).
+teaches(dr_mona, math).
+
+course_passed_by_all(C) :-
+    course(C),
+    \+ (student(X), \+ passes(X, C)).
+
+
+
+parent(john, mary).
+parent(john, tom).
+parent(mary, alice).
+parent(mary, bob).
+parent(tom, charlie).
+
+male(john).
+male(tom).
+male(bob).
+male(charlie).
+female(mary).
+female(alice).
+
+grandparent(X, Z) :- 
+    parent(X, Y), 
+    parent(Y, Z).
+
+father(X, Y) :- 
+    male(X), 
+    parent(X, Y).
+
+sibling(X, Y) :- 
+    parent(P, X), 
+    parent(P, Y), 
+    X \= Y.
+
+ancestor(X, Y) :- 
+    parent(X, Y).
+ancestor(X, Y) :- 
+    parent(X, Z), 
+    ancestor(Z, Y).
